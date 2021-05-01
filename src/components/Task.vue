@@ -5,7 +5,7 @@
       <input type="text" placeholder="Tarefa de hoje?" v-model="tarefa" />
       <button type="submit">Adicionar</button>
     </form>
-    <Item v-bind:lista="tarefas" />
+    <Item v-bind:lista="tarefas" v-bind:delete="deleteTask" />
   </div>
 </template>
 <script>
@@ -31,6 +31,13 @@ export default {
         return;
       }
       this.tarefa = "";
+    },
+    deleteTask(key) {
+      let filtro = this.tarefas.filter((item) => {
+        return item.key !== key;
+      });
+
+      return (this.tarefas = filtro);
     },
   },
   components: {

@@ -3,7 +3,7 @@
     <ul>
       <li v-for="task in lista" v-bind:key="task.key">
         <span> {{ task.text }} </span>
-        <button>Concluir</button>
+        <button v-on:click="deleteItem(task.key)">Concluir</button>
       </li>
     </ul>
   </div>
@@ -11,7 +11,12 @@
 <script>
 export default {
   name: "Item",
-  props: ["lista"],
+  props: ["lista", "delete"],
+  methods: {
+    deleteItem(key) {
+      this.delete(key);
+    },
+  },
 };
 </script>
 <style scoped>
