@@ -1,6 +1,5 @@
 <template>
   <div id="task">
-    <h1>Componente Task</h1>
     <form v-on:submit.prevent="addTask">
       <input type="text" placeholder="Tarefa de hoje?" v-model="tarefa" />
       <button type="submit">Adicionar</button>
