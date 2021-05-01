@@ -5,6 +5,11 @@
       <button type="submit">Adicionar</button>
     </form>
     <Item v-bind:lista="tarefas" v-bind:delete="deleteTask" />
+    <span v-show="tarefas.length > 0">
+      Você tem
+      <strong v-bind:class="{ pend: pendente }">{{ tarefas.length }}</strong>
+      tarefas pendentes.
+    </span>
   </div>
 </template>
 <script>
@@ -12,10 +17,14 @@ import Item from "./Item";
 
 export default {
   name: "Task",
+  components: {
+    Item,
+  },
   data() {
     return {
       tarefa: "",
       tarefas: [],
+      pendente: false,
     };
   },
   methods: {
@@ -39,8 +48,20 @@ export default {
       return (this.tarefas = filtro);
     },
   },
-  components: {
-    Item,
+  watch: {
+    tarefas: {
+      deep: true,
+      handler() {
+        localStorage.setItem("tasks", JSON.stringify(this.tarefas));
+        this.tarefas.length > 4
+          ? (this.pendente = true)
+          : (this.pendente = false);
+      },
+    },
+  },
+  created() {
+    const minhaLista = localStorage.getItem("tasks");
+    this.tarefas = JSON.parse(minhaLista) || [];
   },
 };
 </script>
@@ -80,5 +101,9 @@ input {
   border-radius: 4px;
   font-size: 14px;
   outline: none;
+}
+
+.pend {
+  color: #ff0000;
 }
 </style>
